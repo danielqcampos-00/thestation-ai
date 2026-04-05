@@ -85,6 +85,7 @@ export async function getAllPostsAdmin() {
 export async function createPost(data) {
   const ref = await addDoc(collection(db, POSTS_COL), {
     ...data,
+    publishedAt: data.status === 'published' ? serverTimestamp() : (data.publishedAt || null),
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
   });
@@ -99,6 +100,7 @@ export async function createPost(data) {
 export async function updatePost(id, data) {
   await updateDoc(doc(db, POSTS_COL, id), {
     ...data,
+    publishedAt: data.status === 'published' ? serverTimestamp() : (data.publishedAt || null),
     updatedAt: serverTimestamp(),
   });
 }
