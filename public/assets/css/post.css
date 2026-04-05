@@ -1,0 +1,132 @@
+/* ============================================================
+   post.css — Layout de artigo individual
+   ============================================================ */
+
+.post {
+  max-width: var(--container-narrow);
+  margin-inline: auto;
+  padding: 3rem 1.25rem;
+}
+
+.post__loading {
+  padding: 5rem 0;
+}
+
+/* ── Header do post ──────────────────────────────────────── */
+.post__header {
+  margin-bottom: 2.5rem;
+}
+
+.post__meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.post__title {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.post__excerpt {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.post__author {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.875rem;
+}
+
+.post__author-name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ── Featured image ──────────────────────────────────────── */
+.post__featured-image {
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  margin-bottom: 2.5rem;
+  background-color: var(--bg-secondary);
+}
+
+.post__featured-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── Content ─────────────────────────────────────────────── */
+.post__content {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--text-primary);
+}
+
+/* ── Share buttons ───────────────────────────────────────── */
+.post__share {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.post__share-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* ── Related posts ───────────────────────────────────────── */
+.post__related {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.post__related-title {
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+}
+
+.post__related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+/* ── Breadcrumb no post ──────────────────────────────────── */
+.post__breadcrumb {
+  margin-bottom: 1.5rem;
+}
+
+/* ── 404 e loading states ────────────────────────────────── */
+.post__not-found {
+  text-align: center;
+  padding: 4rem 0;
+}
+
+.post__not-found h1 {
+  margin-bottom: 1rem;
+}
+
+.post__not-found p {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}

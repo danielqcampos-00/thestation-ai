@@ -1,0 +1,140 @@
+/* ============================================================
+   home.css — Estilos específicos da Home
+   ============================================================ */
+
+/* ── Hero ────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: calc(90vh - var(--header-height));
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding-block: 4rem;
+}
+
+/* Canvas de partículas (inserido via home.js) */
+.hero__canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+}
+
+.hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background-color: var(--accent-glow);
+  padding: 0.3rem 0.8rem;
+  border-radius: 100px;
+  border: 1px solid rgba(99,102,241,0.2);
+  margin-bottom: 1.5rem;
+}
+
+.hero__title {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+
+.hero__title-gradient {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero__subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+  max-width: 560px;
+}
+
+.hero__actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ── Gradient orb no hero (dark mode) ───────────────────── */
+:root[data-theme="dark"] .hero::before {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
+  top: -100px;
+  right: -100px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+:root[data-theme="dark"] .hero::after {
+  content: '';
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(168,85,247,0.08) 0%, transparent 70%);
+  bottom: -50px;
+  left: 10%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Section Divider ─────────────────────────────────────── */
+.section--news,
+.section--blog {
+  padding-block: 5rem;
+}
+
+.section--news {
+  background-color: var(--bg-secondary);
+}
+
+.section__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.section__title {
+  position: relative;
+  display: inline-block;
+}
+
+.section__title::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: 2px;
+  margin-top: 0.5rem;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hero {
+    min-height: calc(100vh - var(--header-height));
+    padding-block: 3rem;
+  }
+}

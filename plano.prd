@@ -1,0 +1,234 @@
+# PRD — thestation.ai
+
+**Versão:** 1.0
+**Data:** 2026-04-05
+**Status:** Em desenvolvimento — Fase 1
+
+---
+
+## 1. Visão Geral
+
+**thestation.ai** é uma plataforma educacional sobre Inteligência Artificial voltada para o público brasileiro. O objetivo é ser uma referência em PT-BR para quem quer entender, acompanhar e aprender sobre IA — desde usuários curiosos até profissionais da área.
+
+**Domínio:** thestation.ai
+**Idioma:** Português (PT-BR)
+
+---
+
+## 2. Público-Alvo
+
+- Profissionais curiosos sobre IA (não técnicos)
+- Estudantes e pesquisadores
+- Empresários buscando entender aplicações de IA
+- Jornalistas e comunicadores da área de tecnologia
+
+---
+
+## 3. Páginas e Funcionalidades
+
+### 3.1 Home (`/`)
+- Hero section com headline impactante e CTA
+- Seção de últimas notícias (3 mais recentes)
+- Seção de posts do blog em destaque (3 mais recentes)
+- Toggle dark/light mode visível
+- Newsletter CTA (fase futura)
+
+### 3.2 Notícias (`/noticias`)
+- Listagem paginada de notícias publicadas
+- Filtro por categoria e tags
+- Cards com imagem, título, excerpt, data e categoria
+- Notícias são inseridas pelo admin — conteúdo curado de outras fontes com link para original
+
+### 3.3 Post de Notícia (`/noticias?slug=...`)
+- Conteúdo completo da notícia
+- Breadcrumb de navegação
+- Posts relacionados
+- Compartilhamento em redes sociais
+- Schema JSON-LD de Article
+
+### 3.4 Blog (`/blog`)
+- Listagem paginada de posts do blog
+- Filtro por categoria e tags
+- Cards com imagem, título, excerpt, data e autor
+
+### 3.5 Post de Blog (`/blog?slug=...`)
+- Conteúdo completo do post (markdown renderizado)
+- Índice de conteúdo (TOC) gerado automaticamente
+- Posts relacionados
+- Compartilhamento em redes sociais
+- Schema JSON-LD de Article
+
+### 3.6 Quem Somos (`/quem-somos`)
+- Missão e visão do projeto
+- Equipe (estático)
+- Schema JSON-LD de Organization/AboutPage
+
+### 3.7 Contato (`/contato`)
+- Formulário: nome, email, assunto, mensagem
+- Feedback de envio (sucesso/erro)
+- Envios salvos no Firestore
+
+### 3.8 Painel Admin (`/admin/`)
+- Protegido por Firebase Auth (email/password)
+- **Dashboard:** total de posts, notícias, rascunhos, acessos recentes
+- **Gerenciar conteúdo:** tabela com busca, filtro por tipo/status, ações de editar/excluir
+- **Editor:** campos completos descritos na seção 4
+- **Configurações:** dados globais do site
+
+---
+
+## 4. Editor Admin — Campos Completos
+
+| Campo | Tipo | Obrigatório | Descrição |
+|-------|------|-------------|-----------|
+| Título | texto | ✓ | Título do post |
+| Slug | texto | ✓ | Auto-gerado do título, editável, único |
+| Tipo | select | ✓ | Blog / Notícia |
+| Status | select | ✓ | Rascunho / Publicado / Agendado |
+| Data agendada | datetime | se agendado | Data/hora de publicação |
+| Categoria | texto | — | Categoria principal |
+| Tags | texto | — | Separadas por vírgula |
+| Imagem destaque | URL | — | Preview ao inserir URL |
+| Conteúdo | rich text / markdown | ✓ | Toggle entre modos |
+| AI Readable | toggle | — | Otimiza para LLMs |
+| Meta Title | texto | — | Default: título do post |
+| Meta Description | texto | — | Max 160 chars, contador |
+| URL Canônica | texto | — | Default: URL do post |
+| OG Title | texto | — | Default: meta title |
+| OG Description | texto | — | Default: meta description |
+| OG Image | URL | — | Default: imagem destaque |
+| Twitter Card | select | — | summary / summary_large_image |
+| JSON-LD Schema | textarea | — | JSON-LD raw, editável, auto-gerado se vazio |
+
+---
+
+## 5. SEO
+
+### 5.1 Páginas Estáticas
+- Meta title e description únicos e descritivos
+- Open Graph completo
+- Twitter Cards
+- JSON-LD: WebSite (home), Organization (quem somos), ContactPage (contato)
+- Canonical URL
+- Hreflang (não aplicável — PT-BR apenas)
+
+### 5.2 Posts Dinâmicos
+- Todos os campos acima injetados dinamicamente via `seo.js`
+- JSON-LD Article com headline, datePublished, dateModified, author, publisher, image
+- Breadcrumb schema
+- Auto-geração de schema se campo vazio no admin
+
+### 5.3 Technical SEO
+- `robots.txt` com Disallow em `/admin/`
+- `sitemap.xml` com todas as páginas estáticas + posts publicados
+- Cache headers: no-cache para HTML, 1 ano para assets com hash
+- Core Web Vitals: sem JS blocante, CSS inline para above-the-fold crítico
+- Meta viewport correto
+- Imagens com width/height para evitar CLS
+
+---
+
+## 6. Design
+
+### 6.1 Tema Dual
+O site oferece toggle dark/light mode como diferencial visual.
+
+**Dark Mode (default):**
+- Background: `#0a0a0f` / `#13131a`
+- Accent: `#6366f1` (indigo) / `#a855f7` (purple)
+- Texto: `#f1f5f9` / `#94a3b8`
+- Estilo: futurista, tech, partículas animadas no hero
+
+**Light Mode:**
+- Background: `#ffffff` / `#f8fafc`
+- Accent: `#4f46e5` / `#7c3aed`
+- Texto: `#0f172a` / `#475569`
+- Estilo: editorial, clean, tipografia forte
+
+### 6.2 Tipografia
+- Headlines: Inter ou similar (system-ui fallback)
+- Corpo: Inter, -apple-system fallback
+- Código/mono: JetBrains Mono ou monospace
+
+### 6.3 Responsividade
+- Mobile-first
+- Breakpoints: 640px, 768px, 1024px, 1280px
+
+---
+
+## 7. Integrações Futuras (Stubs Preparados)
+
+### 7.1 Google Gemini Nano
+- Sugestão automática de excerpt ao escrever post
+- Sugestão de tags baseada no conteúdo
+- Resumo automático de notícias longas
+- **Módulo:** `assets/js/ai/gemini-stub.js`
+
+### 7.2 Google VEO 3
+- Geração de vídeo/animação de capa para posts
+- **Módulo:** `assets/js/ai/veo-stub.js`
+
+---
+
+## 8. Stack Técnica
+
+| Camada | Tecnologia | Motivo |
+|--------|-----------|--------|
+| Frontend | HTML + JS vanilla | Sem dependências, máxima performance |
+| Dados | Firebase Firestore | Sem servidor, free tier, realtime |
+| Auth | Firebase Authentication | Integrado, email/password |
+| Hosting | Firebase Hosting | CDN global, free tier, SSL automático |
+| Editor rich text | Quill.js | Leve, sem deps, open source |
+| Markdown | marked.js + DOMPurify | Parser + sanitização XSS |
+| Formulário contato | Firebase Firestore | Sem backend extra |
+
+---
+
+## 9. Fases de Desenvolvimento
+
+| Fase | Descrição | Status |
+|------|-----------|--------|
+| 1 | Scaffold e Infraestrutura | 🔄 Em andamento |
+| 2 | Design System e Páginas Estáticas | ⏳ Pendente |
+| 3 | Integração Firebase e Conteúdo | ⏳ Pendente |
+| 4 | Painel Admin | ⏳ Pendente |
+| 5 | SEO Hardening e Sitemap | ⏳ Pendente |
+| 6 | Stubs de IA e Documentação | ⏳ Pendente |
+
+---
+
+## 10. Critérios de Aceite por Fase
+
+### Fase 1
+- [ ] Pasta `thestation.ai/` criada com estrutura completa
+- [ ] Arquivos de config Firebase presentes e corretos
+- [ ] `CLAUDE.md` e `plano.prd` presentes
+- [ ] Repositório GitHub criado com primeiro commit
+- [ ] `firebase serve` funciona localmente
+
+### Fase 2
+- [ ] Todas as páginas renderizam sem erros
+- [ ] Toggle dark/light funciona e persiste em localStorage
+- [ ] Site responsivo em mobile (320px) e desktop (1280px)
+- [ ] Lighthouse SEO ≥ 90, Accessibility ≥ 90
+
+### Fase 3
+- [ ] Posts criados no Firebase Console aparecem nas listagens
+- [ ] Posts individuais renderizam por slug
+- [ ] SEO dinâmico injeta corretamente no `<head>`
+
+### Fase 4
+- [ ] Login admin funciona com Firebase Auth
+- [ ] Admin cria/edita/exclui posts
+- [ ] Post publicado aparece imediatamente no site público
+- [ ] Rascunho NÃO aparece no site público
+
+### Fase 5
+- [ ] Sitemap contém todos os posts publicados
+- [ ] Google Rich Results Test passa para Article schema
+- [ ] Lighthouse Performance ≥ 95, SEO = 100
+
+### Fase 6
+- [ ] Stubs importam sem erros
+- [ ] Botões "Sugerir com IA" renderizam no editor
+- [ ] CLAUDE.md atualizado com todas as fases completas

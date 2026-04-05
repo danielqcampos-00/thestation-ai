@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO Primary -->
+  <title>thestation.ai — Inteligência Artificial para Todos</title>
+  <meta name="description" content="Notícias, análises e conteúdo educacional sobre Inteligência Artificial em português. Entenda a IA que está transformando o mundo.">
+  <link rel="canonical" href="https://thestation.ai/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://thestation.ai/">
+  <meta property="og:title" content="thestation.ai — Inteligência Artificial para Todos">
+  <meta property="og:description" content="Notícias, análises e conteúdo educacional sobre Inteligência Artificial em português.">
+  <meta property="og:image" content="https://thestation.ai/assets/img/og-default.jpg">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="thestation.ai">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="thestation.ai — Inteligência Artificial para Todos">
+  <meta name="twitter:description" content="Notícias, análises e conteúdo educacional sobre Inteligência Artificial em português.">
+  <meta name="twitter:image" content="https://thestation.ai/assets/img/og-default.jpg">
+
+  <!-- JSON-LD Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "thestation.ai",
+    "url": "https://thestation.ai",
+    "description": "Plataforma educacional sobre Inteligência Artificial em português.",
+    "inLanguage": "pt-BR",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://thestation.ai/busca?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/img/logo.svg">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/layout.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+  <link rel="stylesheet" href="/assets/css/home.css">
+</head>
+<body>
+
+  <!-- Header injetado via components.js -->
+  <header id="site-header"></header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+      <!-- conteúdo inserido via home.js -->
+    </section>
+
+    <!-- Últimas Notícias -->
+    <section class="section section--news" id="latest-news">
+      <div class="container">
+        <h2 class="section__title">Últimas Notícias</h2>
+        <div class="posts-grid" id="news-grid">
+          <!-- cards carregados via home.js -->
+        </div>
+        <a href="/noticias" class="btn btn--outline">Ver todas as notícias</a>
+      </div>
+    </section>
+
+    <!-- Blog em Destaque -->
+    <section class="section section--blog" id="featured-blog">
+      <div class="container">
+        <h2 class="section__title">Do Blog</h2>
+        <div class="posts-grid" id="blog-grid">
+          <!-- cards carregados via home.js -->
+        </div>
+        <a href="/blog" class="btn btn--outline">Ver todos os posts</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer injetado via components.js -->
+  <footer id="site-footer"></footer>
+
+  <!-- JS -->
+  <script type="module" src="/assets/js/components.js"></script>
+  <script type="module" src="/assets/js/home.js"></script>
+</body>
+</html>

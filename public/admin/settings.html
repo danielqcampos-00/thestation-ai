@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configurações — Admin thestation.ai</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/logo.svg">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/admin.css">
+</head>
+<body class="admin-page">
+
+  <script type="module">
+    import { requireAuth } from '/assets/js/auth.js';
+    requireAuth();
+  </script>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar" id="admin-sidebar"></aside>
+
+    <div class="admin-content">
+      <header class="admin-topbar" id="admin-topbar"></header>
+
+      <main class="admin-main">
+        <h1 class="admin-page-title">Configurações do Site</h1>
+
+        <form class="settings-form" id="settings-form" novalidate>
+
+          <div class="editor-card">
+            <h3 class="editor-card__title">Informações Gerais</h3>
+            <div class="form-group">
+              <label for="site-name">Nome do Site</label>
+              <input type="text" id="site-name" name="siteName" value="thestation.ai">
+            </div>
+            <div class="form-group">
+              <label for="site-description">Descrição do Site</label>
+              <textarea id="site-description" name="siteDescription" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="site-url">URL do Site</label>
+              <input type="url" id="site-url" name="siteUrl" value="https://thestation.ai">
+            </div>
+            <div class="form-group">
+              <label for="contact-email">E-mail de Contato</label>
+              <input type="email" id="contact-email" name="contactEmail">
+            </div>
+          </div>
+
+          <div class="editor-card">
+            <h3 class="editor-card__title">SEO Global</h3>
+            <div class="form-group">
+              <label for="default-og-image">Imagem OG Padrão</label>
+              <input type="url" id="default-og-image" name="defaultOgImage" placeholder="https://...">
+            </div>
+            <div class="form-group">
+              <label for="ga-id">Google Analytics ID</label>
+              <input type="text" id="ga-id" name="googleAnalyticsId" placeholder="G-XXXXXXXXXX">
+            </div>
+          </div>
+
+          <div class="editor-card">
+            <h3 class="editor-card__title">Redes Sociais</h3>
+            <div class="form-group">
+              <label for="twitter-handle">Twitter / X</label>
+              <input type="text" id="twitter-handle" name="twitterHandle" placeholder="@thestation_ai">
+            </div>
+            <div class="form-group">
+              <label for="linkedin-url">LinkedIn</label>
+              <input type="url" id="linkedin-url" name="linkedinUrl" placeholder="https://linkedin.com/company/...">
+            </div>
+            <div class="form-group">
+              <label for="youtube-url">YouTube</label>
+              <input type="url" id="youtube-url" name="youtubeUrl" placeholder="https://youtube.com/@...">
+            </div>
+          </div>
+
+          <div class="editor-card">
+            <h3 class="editor-card__title">Sitemap</h3>
+            <p>Regenere o sitemap.xml sempre que publicar novos conteúdos em lote.</p>
+            <button type="button" class="btn btn--outline" id="regenerate-sitemap-btn">Regenerar sitemap.xml</button>
+            <p class="form-feedback" id="sitemap-feedback" role="alert" aria-live="polite"></p>
+          </div>
+
+          <div class="editor-actions">
+            <button type="submit" class="btn btn--primary">Salvar Configurações</button>
+          </div>
+
+          <p class="form-feedback" id="settings-feedback" role="alert" aria-live="polite"></p>
+        </form>
+      </main>
+    </div>
+  </div>
+
+  <script type="module" src="/assets/js/firebase-config.js"></script>
+  <script type="module" src="/assets/js/admin/dashboard.js"></script>
+</body>
+</html>

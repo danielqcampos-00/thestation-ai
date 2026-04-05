@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Admin thestation.ai</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/logo.svg">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/admin.css">
+</head>
+<body class="admin-page">
+
+  <!-- guard de auth — redireciona para /admin/login.html se não autenticado -->
+  <script type="module">
+    import { requireAuth } from '/assets/js/auth.js';
+    requireAuth();
+  </script>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar" id="admin-sidebar"></aside>
+
+    <div class="admin-content">
+      <header class="admin-topbar" id="admin-topbar"></header>
+
+      <main class="admin-main">
+        <h1 class="admin-page-title">Dashboard</h1>
+
+        <div class="stats-grid" id="stats-grid">
+          <!-- carregado via dashboard.js -->
+        </div>
+
+        <section class="admin-section">
+          <h2>Atividade Recente</h2>
+          <div id="recent-activity">
+            <!-- carregado via dashboard.js -->
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script type="module" src="/assets/js/firebase-config.js"></script>
+  <script type="module" src="/assets/js/admin/dashboard.js"></script>
+</body>
+</html>

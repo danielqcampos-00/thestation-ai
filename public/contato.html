@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Contato — thestation.ai</title>
+  <meta name="description" content="Entre em contato com a equipe do thestation.ai. Sugestões, parcerias ou dúvidas sobre Inteligência Artificial.">
+  <link rel="canonical" href="https://thestation.ai/contato">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://thestation.ai/contato">
+  <meta property="og:title" content="Contato — thestation.ai">
+  <meta property="og:description" content="Entre em contato com a equipe do thestation.ai.">
+  <meta property="og:image" content="https://thestation.ai/assets/img/og-default.jpg">
+  <meta property="og:locale" content="pt_BR">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Contato — thestation.ai">
+  <meta name="twitter:description" content="Entre em contato com a equipe do thestation.ai.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "Contato",
+    "url": "https://thestation.ai/contato",
+    "publisher": {
+      "@type": "Organization",
+      "name": "thestation.ai",
+      "url": "https://thestation.ai"
+    }
+  }
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="/assets/img/logo.svg">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/layout.css">
+  <link rel="stylesheet" href="/assets/css/components.css">
+</head>
+<body>
+
+  <header id="site-header"></header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Navegação estrutural">
+          <a href="/">Início</a>
+          <span>Contato</span>
+        </nav>
+        <h1>Fale Conosco</h1>
+        <p class="page-hero__subtitle">Sugestões, parcerias ou dúvidas? Estamos aqui.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container container--narrow">
+        <form class="contact-form" id="contact-form" novalidate>
+          <div class="form-group">
+            <label for="name">Nome *</label>
+            <input type="text" id="name" name="name" required autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label for="email">E-mail *</label>
+            <input type="email" id="email" name="email" required autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label for="subject">Assunto *</label>
+            <input type="text" id="subject" name="subject" required>
+          </div>
+          <div class="form-group">
+            <label for="message">Mensagem *</label>
+            <textarea id="message" name="message" rows="6" required></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary">Enviar Mensagem</button>
+          <p class="form-feedback" id="form-feedback" role="alert" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script type="module" src="/assets/js/components.js"></script>
+  <script type="module" src="/assets/js/contact.js"></script>
+</body>
+</html>
