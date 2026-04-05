@@ -597,3 +597,21 @@ input[role="switch"]:checked::before {
     grid-template-columns: 1fr;
   }
 }
+
+/* ── Garante cores corretas nos botões do admin ──────────── */
+.admin-page .btn--primary,
+.admin-page .btn--primary:hover {
+  color: #fff !important;
+}
+
+.admin-page .btn--outline {
+  color: var(--accent) !important;
+}
+
+.admin-page .btn--danger {
+  color: var(--error) !important;
+}
+
+.admin-page .btn--ghost {
+  color: var(--text-secondary) !important;
+}
