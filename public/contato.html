@@ -5,19 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Contato — thestation.ai</title>
-  <meta name="description" content="Entre em contato com a equipe do thestation.ai. Sugestões, parcerias ou dúvidas sobre Inteligência Artificial.">
+  <meta name="description" content="Entre em contato com a equipe thestation.ai. Sugestões de pauta, parcerias ou dúvidas — estamos aqui.">
   <link rel="canonical" href="https://thestation.ai/contato">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://thestation.ai/contato">
   <meta property="og:title" content="Contato — thestation.ai">
-  <meta property="og:description" content="Entre em contato com a equipe do thestation.ai.">
+  <meta property="og:description" content="Entre em contato com a equipe thestation.ai.">
   <meta property="og:image" content="https://thestation.ai/assets/img/og-default.jpg">
   <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="thestation.ai">
 
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Contato — thestation.ai">
-  <meta name="twitter:description" content="Entre em contato com a equipe do thestation.ai.">
+  <meta name="twitter:description" content="Entre em contato com a equipe thestation.ai.">
+  <meta name="twitter:image" content="https://thestation.ai/assets/img/og-default.jpg">
 
   <script type="application/ld+json">
   {
@@ -25,11 +27,7 @@
     "@type": "ContactPage",
     "name": "Contato",
     "url": "https://thestation.ai/contato",
-    "publisher": {
-      "@type": "Organization",
-      "name": "thestation.ai",
-      "url": "https://thestation.ai"
-    }
+    "isPartOf": { "@type": "WebSite", "name": "thestation.ai", "url": "https://thestation.ai" }
   }
   </script>
 
@@ -43,39 +41,55 @@
   <header id="site-header"></header>
 
   <main>
-    <section class="page-hero">
+    <div class="page-hero">
       <div class="container">
-        <nav class="breadcrumb" aria-label="Navegação estrutural">
+        <nav class="breadcrumb" aria-label="Caminho da página">
           <a href="/">Início</a>
           <span>Contato</span>
         </nav>
-        <h1>Fale Conosco</h1>
-        <p class="page-hero__subtitle">Sugestões, parcerias ou dúvidas? Estamos aqui.</p>
+        <h1>Fale com a gente</h1>
+        <p class="page-hero__subtitle">Sugestões de pauta, parcerias ou qualquer dúvida — respondemos a todos.</p>
       </div>
-    </section>
+    </div>
 
     <section class="section">
       <div class="container container--narrow">
+
         <form class="contact-form" id="contact-form" novalidate>
           <div class="form-group">
-            <label for="name">Nome *</label>
-            <input type="text" id="name" name="name" required autocomplete="name">
+            <label for="contact-name">Seu nome <span aria-hidden="true">*</span></label>
+            <input type="text" id="contact-name" name="name" required autocomplete="name" placeholder="Como você se chama?">
           </div>
+
           <div class="form-group">
-            <label for="email">E-mail *</label>
-            <input type="email" id="email" name="email" required autocomplete="email">
+            <label for="contact-email">E-mail <span aria-hidden="true">*</span></label>
+            <input type="email" id="contact-email" name="email" required autocomplete="email" placeholder="seu@email.com">
           </div>
+
           <div class="form-group">
-            <label for="subject">Assunto *</label>
-            <input type="text" id="subject" name="subject" required>
+            <label for="contact-subject">Assunto</label>
+            <select id="contact-subject" name="subject">
+              <option value="">Selecione um assunto</option>
+              <option value="sugestao-pauta">Sugestão de pauta</option>
+              <option value="parceria">Parceria ou colaboração</option>
+              <option value="feedback">Feedback sobre o site</option>
+              <option value="erro">Reportar um erro</option>
+              <option value="outro">Outro</option>
+            </select>
           </div>
+
           <div class="form-group">
-            <label for="message">Mensagem *</label>
-            <textarea id="message" name="message" rows="6" required></textarea>
+            <label for="contact-message">Mensagem <span aria-hidden="true">*</span></label>
+            <textarea id="contact-message" name="message" rows="6" required placeholder="Escreva sua mensagem aqui..."></textarea>
           </div>
-          <button type="submit" class="btn btn--primary">Enviar Mensagem</button>
-          <p class="form-feedback" id="form-feedback" role="alert" aria-live="polite"></p>
+
+          <div id="contact-feedback" aria-live="polite"></div>
+
+          <button type="submit" class="btn btn--primary" id="contact-submit">
+            Enviar mensagem
+          </button>
         </form>
+
       </div>
     </section>
   </main>

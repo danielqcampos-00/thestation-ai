@@ -221,3 +221,33 @@ p:last-child { margin-bottom: 0; }
   border-top: 1px solid var(--border);
   margin: 2em 0;
 }
+
+/* ── Skeleton loader ─────────────────────────────────────── */
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+.skeleton-box,
+.skeleton-line {
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.post-card--skeleton .post-card__image,
+.skeleton-box {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background-color: var(--bg-secondary);
+}
+
+.skeleton-line {
+  height: 14px;
+  width: 100%;
+  margin-bottom: 0.6rem;
+  border-radius: 4px;
+}
+
+.skeleton-line--short  { width: 40%; }
+.skeleton-line--medium { width: 65%; }

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Página não encontrada — thestation.ai</title>
+  <meta name="description" content="A página que você procura não existe ou foi movida.">
   <meta name="robots" content="noindex, nofollow">
 
   <link rel="icon" type="image/svg+xml" href="/assets/img/logo.svg">
@@ -16,13 +17,18 @@
 
   <header id="site-header"></header>
 
-  <main class="error-page">
-    <div class="container">
+  <main>
+    <div class="error-page">
       <div class="error-page__content">
-        <span class="error-page__code">404</span>
+        <span class="error-page__code" aria-hidden="true">404</span>
         <h1 class="error-page__title">Página não encontrada</h1>
-        <p class="error-page__desc">O conteúdo que você procura pode ter sido movido ou não existe mais.</p>
-        <a href="/" class="btn btn--primary">Voltar ao início</a>
+        <p class="error-page__desc">
+          A página que você procura não existe, foi movida ou o endereço está incorreto.
+        </p>
+        <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+          <a href="/" class="btn btn--primary">Ir para a Home</a>
+          <a href="/noticias" class="btn btn--outline">Ver Notícias</a>
+        </div>
       </div>
     </div>
   </main>

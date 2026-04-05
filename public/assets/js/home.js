@@ -1,0 +1,155 @@
+// home.js — Hero com partículas + seções de destaque (conteúdo estático por enquanto)
+// Fase 3: posts serão carregados do Firestore
+
+// ─── Hero ─────────────────────────────────────────────────────────────────────
+
+function renderHero() {
+  const hero = document.getElementById('hero');
+  if (!hero) return;
+
+  hero.innerHTML = `
+    <canvas class="hero__canvas" id="particles-canvas" aria-hidden="true"></canvas>
+    <div class="container">
+      <div class="hero__content">
+        <span class="hero__eyebrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14.93V15a1 1 0 0 0-2 0v1.93A6 6 0 0 1 6.07 13H8a1 1 0 0 0 0-2H6.07A6 6 0 0 1 11 6.07V8a1 1 0 0 0 2 0V6.07A6 6 0 0 1 17.93 11H16a1 1 0 0 0 0 2h1.93A6 6 0 0 1 13 16.93z"/>
+          </svg>
+          Plataforma de IA em Português
+        </span>
+
+        <h1 class="hero__title">
+          Entenda a IA que está<br>
+          <span class="hero__title-gradient">transformando o mundo</span>
+        </h1>
+
+        <p class="hero__subtitle">
+          Notícias precisas, análises aprofundadas e conteúdo educacional sobre
+          Inteligência Artificial — tudo em português, sem jargão desnecessário.
+        </p>
+
+        <div class="hero__actions">
+          <a href="/noticias" class="btn btn--primary">Ver Notícias</a>
+          <a href="/blog" class="btn btn--outline">Explorar Blog</a>
+        </div>
+      </div>
+    </div>
+  `;
+
+  initParticles();
+}
+
+// ─── Animação de partículas ───────────────────────────────────────────────────
+
+function initParticles() {
+  const canvas = document.getElementById('particles-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let particles = [];
+  let animId;
+  let W, H;
+
+  function resize() {
+    W = canvas.width  = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+
+  function isDark() {
+    return document.documentElement.getAttribute('data-theme') !== 'light';
+  }
+
+  function randomParticle() {
+    return {
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 1.5 + 0.5,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      alpha: Math.random() * 0.5 + 0.1,
+    };
+  }
+
+  function init() {
+    resize();
+    particles = Array.from({ length: 80 }, randomParticle);
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    const dark = isDark();
+    const color = dark ? '99,102,241' : '79,70,229';
+
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0) p.x = W;
+      if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H;
+      if (p.y > H) p.y = 0;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${color},${p.alpha})`;
+      ctx.fill();
+    });
+
+    // Linhas entre partículas próximas
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 100) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(${color},${0.08 * (1 - dist / 100)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+
+    animId = requestAnimationFrame(draw);
+  }
+
+  init();
+  draw();
+
+  window.addEventListener('resize', () => {
+    cancelAnimationFrame(animId);
+    init();
+    draw();
+  });
+
+  // Atualiza cor quando tema muda (sem reiniciar)
+  const observer = new MutationObserver(() => {});
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+}
+
+// ─── Seções de posts (placeholder até Fase 3) ─────────────────────────────────
+
+function renderPlaceholderCards(containerId, count = 3) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+
+  // Mostra skeleton loader enquanto Firestore não está integrado
+  el.innerHTML = Array.from({ length: count }, () => `
+    <article class="post-card post-card--skeleton" aria-hidden="true">
+      <div class="post-card__image skeleton-box"></div>
+      <div class="post-card__body">
+        <div class="skeleton-line skeleton-line--short"></div>
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line skeleton-line--medium"></div>
+      </div>
+    </article>
+  `).join('');
+}
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+
+renderHero();
+renderPlaceholderCards('news-grid', 3);
+renderPlaceholderCards('blog-grid', 3);
