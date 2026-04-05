@@ -144,7 +144,7 @@ function buildCard(post, type) {
     ? `<div class="post-card__image">
          <img src="${post.featuredImageUrl}" alt="${post.title}" loading="lazy" width="600" height="338">
        </div>`
-    : '';
+    : `<div class="post-card__image post-card__image--placeholder"></div>`;
 
   return `
     <article class="post-card">
