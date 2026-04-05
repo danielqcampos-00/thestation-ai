@@ -8,15 +8,9 @@
   <link rel="icon" type="image/svg+xml" href="/assets/img/logo.svg">
   <link rel="stylesheet" href="/assets/css/main.css">
   <link rel="stylesheet" href="/assets/css/admin.css">
-  <!-- Quill editor styles -->
   <link rel="stylesheet" href="/assets/lib/quill.snow.css">
 </head>
 <body class="admin-page">
-
-  <script type="module">
-    import { requireAuth } from '/assets/js/auth.js';
-    requireAuth();
-  </script>
 
   <div class="admin-layout">
     <aside class="admin-sidebar" id="admin-sidebar"></aside>
@@ -26,33 +20,35 @@
 
       <main class="admin-main">
         <div class="admin-page-header">
-          <h1 class="admin-page-title" id="editor-page-title">Novo Post</h1>
+          <h1 class="admin-page-title">Novo Post</h1>
           <div class="editor-actions">
+            <a href="/admin/posts.html" class="btn btn--ghost btn--sm">← Voltar</a>
             <button class="btn btn--outline" id="save-draft-btn">Salvar Rascunho</button>
             <button class="btn btn--primary" id="publish-btn">Publicar</button>
           </div>
         </div>
 
-        <form class="editor-form" id="editor-form" novalidate>
-          <!-- Coluna principal -->
+        <p class="editor-feedback" id="editor-feedback" role="alert" aria-live="polite"></p>
+
+        <div class="editor-form" id="editor-form">
+
+          <!-- ── Coluna principal ───────────────────────────── -->
           <div class="editor-main">
 
-            <!-- Título -->
             <div class="form-group">
               <label for="post-title">Título *</label>
-              <input type="text" id="post-title" name="title" required placeholder="Título do post">
+              <input type="text" id="post-title" placeholder="Título do post" autocomplete="off">
             </div>
 
-            <!-- Slug -->
             <div class="form-group">
               <label for="post-slug">Slug (URL) *</label>
               <div class="slug-field">
-                <span class="slug-field__prefix">thestation.ai/blog/</span>
-                <input type="text" id="post-slug" name="slug" required placeholder="titulo-do-post">
+                <span class="slug-field__prefix" id="slug-prefix">thestation.ai/blog/</span>
+                <input type="text" id="post-slug" placeholder="titulo-do-post" autocomplete="off">
               </div>
             </div>
 
-            <!-- Conteúdo com toggle -->
+            <!-- Toggle modo de conteúdo -->
             <div class="form-group">
               <div class="content-toolbar">
                 <label>Conteúdo *</label>
@@ -62,156 +58,142 @@
                 </div>
               </div>
 
-              <!-- Rich text (Quill) -->
-              <div id="quill-editor" class="quill-container"></div>
-
-              <!-- Markdown (textarea + preview) -->
-              <div id="markdown-editor" class="markdown-editor hidden">
-                <div class="markdown-editor__panes">
-                  <div class="markdown-editor__input">
-                    <textarea id="markdown-input" placeholder="Escreva em Markdown..."></textarea>
-                  </div>
-                  <div class="markdown-editor__preview">
-                    <div id="markdown-preview" class="prose"></div>
-                  </div>
-                </div>
+              <!-- Rich Text (Quill) -->
+              <div id="quill-wrap" class="quill-container">
+                <div id="quill-editor"></div>
               </div>
 
-              <input type="hidden" id="content-format" name="contentFormat" value="html">
-              <input type="hidden" id="content-value" name="content">
+              <!-- Markdown -->
+              <div id="markdown-wrap" class="markdown-editor__panes hidden">
+                <div class="markdown-editor__input">
+                  <textarea id="markdown-content" placeholder="Escreva em Markdown..."></textarea>
+                </div>
+                <div class="markdown-editor__preview prose" id="markdown-preview"></div>
+              </div>
             </div>
 
           </div>
 
-          <!-- Sidebar do editor -->
+          <!-- ── Sidebar do editor ──────────────────────────── -->
           <aside class="editor-sidebar">
 
-            <!-- Status e tipo -->
+            <!-- Publicação -->
             <div class="editor-card">
-              <h3 class="editor-card__title">Publicação</h3>
+              <div class="editor-card__title">Publicação</div>
               <div class="form-group">
                 <label for="post-type">Tipo *</label>
-                <select id="post-type" name="type" required>
+                <select id="post-type">
                   <option value="blog">Blog</option>
                   <option value="news">Notícia</option>
                 </select>
               </div>
               <div class="form-group">
                 <label for="post-status">Status</label>
-                <select id="post-status" name="status">
+                <select id="post-status">
                   <option value="draft">Rascunho</option>
                   <option value="published">Publicado</option>
                   <option value="scheduled">Agendado</option>
                 </select>
               </div>
-              <div class="form-group hidden" id="scheduled-at-group">
-                <label for="scheduled-at">Data de publicação</label>
-                <input type="datetime-local" id="scheduled-at" name="scheduledAt">
+              <div class="form-group hidden" id="schedule-wrap">
+                <label for="post-scheduled-at">Data de publicação</label>
+                <input type="datetime-local" id="post-scheduled-at">
               </div>
             </div>
 
-            <!-- Imagem e metadados -->
+            <!-- Imagem e categorização -->
             <div class="editor-card">
-              <h3 class="editor-card__title">Imagem e Categorização</h3>
+              <div class="editor-card__title">Imagem e Categorização</div>
               <div class="form-group">
-                <label for="featured-image">URL da Imagem de Destaque</label>
-                <input type="url" id="featured-image" name="featuredImageUrl" placeholder="https://...">
+                <label for="post-image">URL da Imagem de Destaque</label>
+                <input type="url" id="post-image" placeholder="https://...">
                 <div class="image-preview hidden" id="image-preview">
-                  <img id="image-preview-img" src="" alt="Preview da imagem">
+                  <img src="" alt="Preview">
                 </div>
               </div>
               <div class="form-group">
                 <label for="post-category">Categoria</label>
-                <input type="text" id="post-category" name="category" placeholder="ex: LLMs">
+                <input type="text" id="post-category" placeholder="ex: LLMs, Ferramentas">
               </div>
               <div class="form-group">
                 <label for="post-tags">Tags</label>
-                <input type="text" id="post-tags" name="tags" placeholder="tag1, tag2, tag3">
+                <input type="text" id="post-tags" placeholder="tag1, tag2, tag3">
                 <small>Separadas por vírgula</small>
               </div>
               <div class="form-group">
                 <label for="post-excerpt">Resumo (Excerpt)</label>
                 <div class="excerpt-field">
-                  <textarea id="post-excerpt" name="excerpt" rows="3" placeholder="Breve descrição do post..."></textarea>
-                  <button type="button" class="ai-suggest-btn" id="ai-suggest-excerpt" title="Em breve: sugestão por IA">
-                    ✦ Sugerir com IA
-                  </button>
+                  <textarea id="post-excerpt" rows="3" placeholder="Breve descrição..."></textarea>
+                  <button type="button" class="ai-suggest-btn" id="ai-suggest-excerpt" title="Em breve">✦ IA</button>
                 </div>
               </div>
-
-              <!-- Toggle AI Readable -->
               <div class="form-group form-group--toggle">
-                <label for="ai-readable">
-                  Conteúdo otimizado para IA
-                  <small>Formata o conteúdo para melhor leitura por LLMs</small>
+                <label for="post-ai-readable">
+                  Otimizado para IA
+                  <small>Formata para leitura por LLMs</small>
                 </label>
-                <input type="checkbox" id="ai-readable" name="aiReadable" role="switch">
+                <input type="checkbox" id="post-ai-readable" role="switch">
               </div>
             </div>
 
             <!-- SEO -->
-            <details class="editor-card editor-card--collapsible" id="seo-section">
+            <details class="editor-card editor-card--collapsible">
               <summary class="editor-card__title">SEO</summary>
 
               <div class="form-group">
-                <label for="seo-title">Meta Title</label>
-                <input type="text" id="seo-title" name="seo.metaTitle" placeholder="Default: título do post">
-                <small class="char-counter" id="seo-title-counter">0 / 60</small>
+                <label for="seo-meta-title">Meta Title</label>
+                <input type="text" id="seo-meta-title" placeholder="Default: título do post">
+                <div class="char-counter" id="seo-meta-title-count">0/60</div>
               </div>
               <div class="form-group">
-                <label for="seo-description">Meta Description</label>
-                <textarea id="seo-description" name="seo.metaDescription" rows="3" placeholder="Default: excerpt do post"></textarea>
-                <small class="char-counter" id="seo-desc-counter">0 / 160</small>
+                <label for="seo-meta-desc">Meta Description</label>
+                <textarea id="seo-meta-desc" rows="3" placeholder="Default: excerpt"></textarea>
+                <div class="char-counter" id="seo-meta-desc-count">0/160</div>
               </div>
               <div class="form-group">
                 <label for="seo-canonical">URL Canônica</label>
-                <input type="url" id="seo-canonical" name="seo.canonicalUrl" placeholder="Default: URL do post">
+                <input type="url" id="seo-canonical" placeholder="Default: URL do post">
               </div>
               <div class="form-group">
-                <label for="og-title">OG Title</label>
-                <input type="text" id="og-title" name="seo.ogTitle" placeholder="Default: meta title">
+                <label for="seo-og-title">OG Title</label>
+                <input type="text" id="seo-og-title" placeholder="Default: meta title">
               </div>
               <div class="form-group">
-                <label for="og-description">OG Description</label>
-                <textarea id="og-description" name="seo.ogDescription" rows="2" placeholder="Default: meta description"></textarea>
+                <label for="seo-og-desc">OG Description</label>
+                <textarea id="seo-og-desc" rows="2" placeholder="Default: meta description"></textarea>
               </div>
               <div class="form-group">
-                <label for="og-image">OG Image URL</label>
-                <input type="url" id="og-image" name="seo.ogImage" placeholder="Default: imagem de destaque">
+                <label for="seo-og-image">OG Image URL</label>
+                <input type="url" id="seo-og-image" placeholder="Default: imagem de destaque">
               </div>
               <div class="form-group">
-                <label for="twitter-card">Twitter Card</label>
-                <select id="twitter-card" name="seo.twitterCard">
+                <label for="seo-twitter-card">Twitter Card</label>
+                <select id="seo-twitter-card">
                   <option value="summary_large_image">summary_large_image</option>
                   <option value="summary">summary</option>
                 </select>
               </div>
             </details>
 
-            <!-- JSON-LD Schema -->
-            <details class="editor-card editor-card--collapsible" id="schema-section">
+            <!-- JSON-LD -->
+            <details class="editor-card editor-card--collapsible">
               <summary class="editor-card__title">JSON-LD Schema</summary>
               <div class="form-group">
-                <label for="json-ld">Schema Markup (JSON-LD)</label>
-                <textarea id="json-ld" name="schema" rows="10" placeholder="Auto-gerado se vazio. Cole JSON-LD customizado aqui."></textarea>
-                <small>Deixe vazio para gerar automaticamente o Article schema.</small>
+                <label for="post-schema">Schema Markup</label>
+                <textarea id="post-schema" rows="8" placeholder="Deixe vazio para auto-gerar Article schema."></textarea>
+                <small>JSON-LD customizado. Auto-gerado se vazio.</small>
               </div>
             </details>
 
           </aside>
-        </form>
-
-        <p class="editor-feedback" id="editor-feedback" role="alert" aria-live="polite"></p>
+        </div><!-- /editor-form -->
       </main>
     </div>
   </div>
 
-  <!-- Libs -->
   <script src="/assets/lib/quill.min.js"></script>
   <script src="/assets/lib/marked.min.js"></script>
   <script src="/assets/lib/dompurify.min.js"></script>
-
-  <script type="module" src="/assets/js/firebase-config.js"></script>
   <script type="module" src="/assets/js/admin/editor.js"></script>
 </body>
 </html>
