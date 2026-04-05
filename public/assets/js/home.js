@@ -1,5 +1,6 @@
-// home.js — Hero com partículas + seções de destaque (conteúdo estático por enquanto)
-// Fase 3: posts serão carregados do Firestore
+// home.js — Hero com partículas + seções de posts do Firestore
+
+import { getRecentPosts } from './firestore.js';
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
@@ -77,8 +78,7 @@ function initParticles() {
 
   function draw() {
     ctx.clearRect(0, 0, W, H);
-    const dark = isDark();
-    const color = dark ? '99,102,241' : '79,70,229';
+    const color = isDark() ? '99,102,241' : '79,70,229';
 
     particles.forEach(p => {
       p.x += p.vx;
@@ -94,7 +94,6 @@ function initParticles() {
       ctx.fill();
     });
 
-    // Linhas entre partículas próximas
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
         const dx = particles[i].x - particles[j].x;
@@ -122,25 +121,55 @@ function initParticles() {
     init();
     draw();
   });
-
-  // Atualiza cor quando tema muda (sem reiniciar)
-  const observer = new MutationObserver(() => {});
-  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 }
 
-// ─── Seções de posts (placeholder até Fase 3) ─────────────────────────────────
+// ─── Cards de post ────────────────────────────────────────────────────────────
 
-function renderPlaceholderCards(containerId, count = 3) {
-  const el = document.getElementById(containerId);
+function formatDate(ts) {
+  if (!ts) return '';
+  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function buildCard(post, type) {
+  const href     = `/${type === 'news' ? 'noticias' : 'blog'}/${post.slug}`;
+  const badgeCls = type === 'news' ? 'badge--news' : 'badge--blog';
+  const label    = post.category || (type === 'news' ? 'Notícia' : 'Blog');
+  const date     = formatDate(post.publishedAt);
+
+  const image = post.featuredImageUrl
+    ? `<div class="post-card__image">
+         <img src="${post.featuredImageUrl}" alt="${post.title}" loading="lazy" width="600" height="338">
+       </div>`
+    : '';
+
+  return `
+    <article class="post-card">
+      ${image}
+      <div class="post-card__body">
+        <div class="post-card__meta">
+          <span class="badge ${badgeCls}">${label}</span>
+          ${date ? `<time>${date}</time>` : ''}
+        </div>
+        <h3 class="post-card__title"><a href="${href}">${post.title}</a></h3>
+        ${post.excerpt ? `<p class="post-card__excerpt">${post.excerpt}</p>` : ''}
+        <div class="post-card__footer">
+          <span>${post.authorName || 'thestation.ai'}</span>
+          <a href="${href}" class="btn btn--ghost btn--sm">Ler →</a>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function showSkeletons(id, count = 3) {
+  const el = document.getElementById(id);
   if (!el) return;
-
-  // Mostra skeleton loader enquanto Firestore não está integrado
   el.innerHTML = Array.from({ length: count }, () => `
     <article class="post-card post-card--skeleton" aria-hidden="true">
       <div class="post-card__image skeleton-box"></div>
       <div class="post-card__body">
         <div class="skeleton-line skeleton-line--short"></div>
-        <div class="skeleton-line"></div>
         <div class="skeleton-line"></div>
         <div class="skeleton-line skeleton-line--medium"></div>
       </div>
@@ -148,8 +177,28 @@ function renderPlaceholderCards(containerId, count = 3) {
   `).join('');
 }
 
+async function loadSection(containerId, type) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+
+  try {
+    const posts = await getRecentPosts(type, 3);
+    if (!posts.length) {
+      el.innerHTML = `<p style="color:var(--text-muted); grid-column:1/-1">Em breve novos conteúdos por aqui.</p>`;
+      return;
+    }
+    el.innerHTML = posts.map(p => buildCard(p, type)).join('');
+  } catch (err) {
+    console.error(`Erro ao carregar ${type}:`, err);
+    el.innerHTML = `<p style="color:var(--text-muted); grid-column:1/-1">Não foi possível carregar o conteúdo.</p>`;
+  }
+}
+
 // ─── Init ─────────────────────────────────────────────────────────────────────
 
 renderHero();
-renderPlaceholderCards('news-grid', 3);
-renderPlaceholderCards('blog-grid', 3);
+showSkeletons('news-grid', 3);
+showSkeletons('blog-grid', 3);
+
+loadSection('news-grid', 'news');
+loadSection('blog-grid', 'blog');
