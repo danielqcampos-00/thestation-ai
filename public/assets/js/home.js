@@ -113,8 +113,11 @@ function initParticles() {
     animId = requestAnimationFrame(draw);
   }
 
-  init();
-  draw();
+  // Aguarda o layout ser calculado antes de iniciar
+  requestAnimationFrame(() => {
+    init();
+    draw();
+  });
 
   window.addEventListener('resize', () => {
     cancelAnimationFrame(animId);
