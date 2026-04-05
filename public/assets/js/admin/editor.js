@@ -1,47 +1,13 @@
 // admin/editor.js — Editor completo de posts (criar e editar)
 
 import { requireAuth, logout, getCurrentUser } from '/assets/js/auth.js';
-import { createPost, updatePost, getAllPostsAdmin, slugExists } from '/assets/js/firestore.js';
+import { createPost, updatePost, getAllPostsAdmin, slugExists, getCategories } from '/assets/js/firestore.js';
 import { generateExcerpt, suggestTags } from '/assets/js/ai/gemini-stub.js';
+import { initAdminUI } from '/assets/js/admin/ui.js';
 
 await requireAuth();
 
-// ─── Sidebar/Topbar ───────────────────────────────────────────────────────────
-
-const NAV = [
-  { href: '/admin/index.html',    icon: '▦', label: 'Dashboard' },
-  { href: '/admin/posts.html',    icon: '✦', label: 'Conteúdo' },
-  { href: '/admin/editor.html',   icon: '+', label: 'Novo Post' },
-  { href: '/admin/settings.html', icon: '⚙', label: 'Configurações' },
-];
-
-function buildSidebar() {
-  const current = window.location.pathname;
-  const links = NAV.map(({ href, icon, label }) => {
-    const active = current === href || current.endsWith(href.split('/').pop());
-    return `<a href="${href}" class="admin-nav__link${active ? ' admin-nav__link--active' : ''}">
-      <span aria-hidden="true">${icon}</span> ${label}
-    </a>`;
-  }).join('');
-  return `
-    <div class="admin-sidebar__logo">
-      <img src="/assets/img/logo.svg" alt="thestation.ai" width="28" height="28">
-      <span>thestation<span style="color:var(--accent)">.</span>ai</span>
-    </div>
-    ${links}
-    <div style="margin-top:auto; padding-top:1rem; border-top:1px solid var(--border);">
-      <a href="/" class="admin-nav__link" target="_blank">↗ Ver site</a>
-    </div>`;
-}
-
-document.getElementById('admin-sidebar').innerHTML = buildSidebar();
-document.getElementById('admin-topbar').innerHTML = `
-  <span style="font-size:0.8rem; color:var(--text-muted);">${getCurrentUser()?.email || ''}</span>
-  <button class="btn btn--ghost btn--sm" id="logout-btn">Sair</button>`;
-
-document.addEventListener('click', async (e) => {
-  if (e.target.closest('#logout-btn')) { await logout(); window.location.href = '/admin/login.html'; }
-});
+initAdminUI(logout);
 
 // ─── Estado ───────────────────────────────────────────────────────────────────
 
@@ -341,6 +307,34 @@ async function loadForEdit(id) {
   updateCounter(seoMetaDesc,  $('seo-meta-desc-count'),  160);
 }
 
+// ─── Carrega categorias no dropdown ───────────────────────────────────────────
+
+async function loadCategories(selectedValue = '') {
+  try {
+    const cats = await getCategories();
+    const select = $('post-category');
+    if (!select) return;
+
+    const currentVal = selectedValue || select.value;
+    select.innerHTML = `<option value="">Sem categoria</option>` +
+      cats.map(c => `<option value="${c.slug}"${c.slug === currentVal ? ' selected' : ''}>${c.name}</option>`).join('');
+  } catch (err) {
+    console.error('Erro ao carregar categorias:', err);
+  }
+}
+
 // ─── Init ─────────────────────────────────────────────────────────────────────
 
-if (editId) await loadForEdit(editId);
+if (editId) {
+  // Carrega categorias e post em paralelo
+  const [_, post] = await Promise.all([loadCategories(), (async () => {
+    const posts = await getAllPostsAdmin();
+    return posts.find(p => p.id === editId) || null;
+  })()]);
+  if (post) {
+    await loadCategories(post.category || '');
+    await loadForEdit(editId);
+  }
+} else {
+  await loadCategories();
+}

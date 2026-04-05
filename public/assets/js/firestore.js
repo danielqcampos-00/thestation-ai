@@ -137,6 +137,33 @@ export async function saveSiteSettings(data) {
   await setDoc(doc(db, SETTINGS_COL, 'site'), data, { merge: true });
 }
 
+// ─── Categorias ──────────────────────────────────────────────────────────────
+
+const CATEGORIES_COL = 'categories';
+
+export async function getCategories(type = null) {
+  let q = collection(db, CATEGORIES_COL);
+  if (type) {
+    q = query(q, where('type', 'in', [type, 'both']), orderBy('name'));
+  } else {
+    q = query(q, orderBy('name'));
+  }
+  const snap = await getDocs(q);
+  return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+}
+
+export async function createCategory(data) {
+  const ref = await addDoc(collection(db, CATEGORIES_COL), {
+    ...data,
+    createdAt: serverTimestamp(),
+  });
+  return ref.id;
+}
+
+export async function deleteCategory(id) {
+  await deleteDoc(doc(db, CATEGORIES_COL, id));
+}
+
 // ─── Contato ──────────────────────────────────────────────────────────────────
 
 export async function submitContactForm(data) {

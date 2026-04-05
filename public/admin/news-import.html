@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Importar Notícias — Admin thestation.ai</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/logo.svg">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/admin.css">
+</head>
+<body class="admin-page">
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar" id="admin-sidebar"></aside>
+
+    <div class="admin-content">
+      <header class="admin-topbar" id="admin-topbar"></header>
+
+      <main class="admin-main">
+        <div class="admin-page-header">
+          <h1 class="admin-page-title">Importar Notícias</h1>
+          <button class="btn btn--primary" id="fetch-btn" style="color:#fff">↓ Buscar Agora</button>
+        </div>
+
+        <p style="color:var(--text-muted);margin-bottom:1.5rem;font-size:0.875rem">
+          Busca artigos das principais fontes de IA via RSS. Selecione os que deseja importar como rascunho — você revisa e publica.
+        </p>
+
+        <!-- Fontes -->
+        <div class="editor-card" style="margin-bottom:1.5rem">
+          <div class="editor-card__title">Fontes Ativas</div>
+          <div id="sources-list" style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.75rem"></div>
+        </div>
+
+        <!-- Resultados -->
+        <div id="import-feedback" role="alert" aria-live="polite" style="margin-bottom:1rem"></div>
+
+        <div id="results-container">
+          <p style="color:var(--text-muted);text-align:center;padding:3rem 0">
+            Clique em "Buscar Agora" para carregar artigos das fontes.
+          </p>
+        </div>
+
+        <!-- Botão importar selecionados -->
+        <div id="import-actions" class="hidden" style="margin-top:1.5rem;display:flex;align-items:center;gap:1rem">
+          <button class="btn btn--primary" id="import-selected-btn" style="color:#fff">
+            Importar Selecionados como Rascunho
+          </button>
+          <span id="selected-count" style="font-size:0.875rem;color:var(--text-muted)">0 selecionados</span>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script type="module" src="/assets/js/admin/news-import.js"></script>
+</body>
+</html>
