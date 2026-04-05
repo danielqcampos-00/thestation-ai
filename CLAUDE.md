@@ -80,7 +80,7 @@ thestation.ai/
 
 ## Firebase
 
-- **Project ID:** `FIREBASE_PROJECT_ID_HERE` ← atualizar após criar projeto
+- **Project ID:** `thestation-ai`
 - **Region:** us-central1 (padrão)
 - **Serviços usados:** Authentication (email/password), Firestore, Hosting
 - **Como rodar local:** `firebase serve` na raiz do projeto

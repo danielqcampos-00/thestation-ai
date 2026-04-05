@@ -6,12 +6,12 @@ import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.12.0/firebas
 import { getAuth } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 
 const firebaseConfig = {
-  apiKey:            'FIREBASE_API_KEY',
-  authDomain:        'FIREBASE_PROJECT_ID.firebaseapp.com',
-  projectId:         'FIREBASE_PROJECT_ID',
-  storageBucket:     'FIREBASE_PROJECT_ID.appspot.com',
-  messagingSenderId: 'FIREBASE_MESSAGING_SENDER_ID',
-  appId:             'FIREBASE_APP_ID',
+  apiKey:            'AIzaSyCwv3wVD_LcgZG1TQGrQzjV9hcpnk_NCi4',
+  authDomain:        'thestation-ai.firebaseapp.com',
+  projectId:         'thestation-ai',
+  storageBucket:     'thestation-ai.firebasestorage.app',
+  messagingSenderId: '202965955584',
+  appId:             '1:202965955584:web:a198785bfdc25188d454e5',
 };
 
 const app = initializeApp(firebaseConfig);
